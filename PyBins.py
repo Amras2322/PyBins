@@ -183,5 +183,5 @@ def main():
             print("Invalid option! Please enter a number ranging from 1 to 6 to select an option.")
 
 
-if __name__ == "__main__":
+if __name__ == "__PyBins__":
     main()
