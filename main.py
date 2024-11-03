@@ -1,14 +1,17 @@
 import yaml
 
 
+# Creates a new container in the specified file by appending it to the existing data.
 def create_new_container(container_dict, filename):
     with open(filename, 'a') as f:
         yaml.dump(container_dict, f)
 
 
+# Adds an item to an existing container.
 def add_item_to_container(container_name, item_name, quantity, filename="storage.yaml"):
     try:
         with open(filename, 'r') as f:
+            # Load the data from the file, or use an empty dictionary if the file is empty.
             data = yaml.safe_load(f) or {}
     except FileNotFoundError:
         data = {}
@@ -17,9 +20,11 @@ def add_item_to_container(container_name, item_name, quantity, filename="storage
         print(f"Container '{container_name}' does not exist!")
         return False
 
+    # Initialize the container's data if it's empty.
     if data[container_name] is None:
         data[container_name] = {}
 
+    # Update the quantity of the item in the container.
     data[container_name][item_name] = quantity
 
     with open(filename, 'w') as f:
@@ -29,15 +34,18 @@ def add_item_to_container(container_name, item_name, quantity, filename="storage
     return True
 
 
+# Lists all the containers in the specified file.
 def list_containers(filename="storage.yaml"):
     try:
         with open(filename, 'r') as f:
+            # Load the data from the file, or use an empty dictionary if the file is empty.
             data = yaml.safe_load(f) or {}
 
         if not data:
             print("No containers found!")
             return
 
+        # Print the names of all containers.
         print("\nAvailable Containers:")
         print("--------------------")
         for container_name in data.keys():
@@ -47,19 +55,47 @@ def list_containers(filename="storage.yaml"):
         print("No storage file found! No containers exist yet.")
 
 
+# Lists all items in a specific container.
+def list_items_in_container(container_name, filename="storage.yaml"):
+    try:
+        with open(filename, 'r') as f:
+            # Load the data from the file, or use an empty dictionary if the file is empty.
+            data = yaml.safe_load(f) or {}
+
+        if container_name not in data:
+            print(f"Container '{container_name}' does not exist!")
+            return
+
+        # Load the items in the specified container.
+        items = data[container_name]
+        if not items:
+            print(f"No items found in container '{container_name}'!")
+            return
+
+        # Print the items in the container.
+        print(f"\nItems in container '{container_name}':")
+        print("--------------------")
+        for item_name, quantity in items.items():
+            print(f"- {item_name}: {quantity}")
+        print("--------------------")
+    except FileNotFoundError:
+        print("No storage file found!")
+
+
+# Deletes a container from the specified file.
 def delete_container(container_name, filename="storage.yaml"):
     try:
         with open(filename, 'r') as f:
+            # Load the data from the file, or use an empty dictionary if the file is empty.
             data = yaml.safe_load(f) or {}
 
         if container_name not in data:
             print(f"Container '{container_name}' does not exist!")
             return False
 
-        # Remove the container
+        # Remove the container.
         del data[container_name]
 
-        # Write updated data back to file
         with open(filename, 'w') as f:
             yaml.dump(data, f)
 
@@ -70,9 +106,11 @@ def delete_container(container_name, filename="storage.yaml"):
         return False
 
 
+# Deletes an item from a specific container.
 def delete_item_from_container(container_name, item_name, filename="storage.yaml"):
     try:
         with open(filename, 'r') as f:
+            # Load the data from the file, or use an empty dictionary if the file is empty.
             data = yaml.safe_load(f) or {}
 
         if container_name not in data:
@@ -83,10 +121,9 @@ def delete_item_from_container(container_name, item_name, filename="storage.yaml
             print(f"Item '{item_name}' does not exist in container '{container_name}'!")
             return False
 
-        # Remove the item
+        # Remove the item from the container.
         del data[container_name][item_name]
 
-        # Write updated data back to file
         with open(filename, 'w') as f:
             yaml.dump(data, f)
 
@@ -97,14 +134,16 @@ def delete_item_from_container(container_name, item_name, filename="storage.yaml
         return False
 
 
+# Main function to run the application.
 def main():
     while True:
         print("\n1. Create new container")
         print("2. Add item to container")
         print("3. List all containers")
-        print("4. Delete container")
-        print("5. Delete item from container")
-        print("6. Exit")
+        print("4. List all items in a container")
+        print("5. Delete container")
+        print("6. Delete item from container")
+        print("7. Exit")
 
         choice = input("Choose an option (1-6): ")
 
@@ -124,15 +163,19 @@ def main():
             list_containers()
 
         elif choice == "4":
+            container_name = input("Enter container name: ")
+            list_items_in_container(container_name)
+
+        elif choice == "5":
             container_name = input("Enter container name to delete: ")
             delete_container(container_name)
 
-        elif choice == "5":
+        elif choice == "6":
             container_name = input("Enter container name: ")
             item_name = input("Enter item name to delete: ")
             delete_item_from_container(container_name, item_name)
 
-        elif choice == "6":
+        elif choice == "7":
             print("Goodbye!")
             break
 
