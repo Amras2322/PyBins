@@ -66,20 +66,19 @@ def list_items_in_container(container_name, filename="storage.yaml"):
             print(f"Container '{container_name}' does not exist!")
             return
 
-        # Load the items in the specified container.
-        items = data[container_name]
-        if not items:
-            print(f"No items found in container '{container_name}'!")
+        # Check if the container has any items.
+        if not data[container_name]:
+            print(f"The container '{container_name}' is empty.")
             return
 
-        # Print the items in the container.
-        print(f"\nItems in container '{container_name}':")
-        print("--------------------")
-        for item_name, quantity in items.items():
+        print(f"\nItems in Container '{container_name}':")
+        print("-----------------------------")
+        for item_name, quantity in data[container_name].items():
             print(f"- {item_name}: {quantity}")
-        print("--------------------")
+        print("-----------------------------")
     except FileNotFoundError:
-        print("No storage file found!")
+        print("No storage file found! No containers exist yet.")
+
 
 
 # Deletes a container from the specified file.
@@ -145,7 +144,7 @@ def main():
         print("6. Delete item from container")
         print("7. Exit")
 
-        choice = input("Choose an option (1-6): ")
+        choice = input("Choose an option (1-7): ")
 
         if choice == "1":
             container_name = input("Please enter the name for your new container: ")
@@ -182,6 +181,4 @@ def main():
         else:
             print("Invalid option! Please enter a number ranging from 1 to 6 to select an option.")
 
-
-if __name__ == "__PyBins__":
-    main()
+main()
