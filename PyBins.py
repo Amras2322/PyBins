@@ -135,13 +135,13 @@ def delete_item_from_container(container_name, item_name, filename="storage.yaml
 # Main function to run the application.
 def main():
     while True:
-        print("\n1. Create new container")
-        print("2. Add item to container")
-        print("3. List all containers")
-        print("4. List all items in a container")
-        print("5. Delete container")
-        print("6. Delete item from container")
-        print("7. Exit")
+        print("\n1. 📦 Create new container")
+        print("2. ➕ Add item to container")
+        print("3. ➖ Delete item from container")
+        print("4. 🗄️ List all containers")
+        print("5. 📋 List all items in a container")
+        print("6. ❌ Delete container")
+        print("7. 👋 Exit")
 
         choice = input("Choose an option (1-7): ")
 
@@ -158,26 +158,25 @@ def main():
             add_item_to_container(container_name, item_name, quantity)
 
         elif choice == "3":
-            list_containers()
-
-        elif choice == "4":
-            container_name = input("Enter container name 📦: ")
-            list_items_in_container(container_name)
-
-        elif choice == "5":
-            container_name = input("Enter container name 📦 to delete: ")
-            delete_container(container_name)
-
-        elif choice == "6":
             container_name = input("Enter container name 📦: ")
             item_name = input("Enter item name to delete: ")
             delete_item_from_container(container_name, item_name)
+
+        elif choice == "4":
+            list_containers()
+        elif choice == "5":
+            container_name = input("Enter container name 📦: ")
+            list_items_in_container(container_name)
+
+        elif choice == "6":
+            container_name = input("Enter container name 📦 to delete: ")
+            delete_container(container_name)
 
         elif choice == "7":
             print("Goodbye! 👋")
             break
 
         else:
-            print("Invalid option! Please enter a number ranging from 1 to 6 to select an option. 🤔")
+            print("Invalid option! Please enter a number ranging from 1 to 7 to select an option. 🤔")
 
 main()
